@@ -41,7 +41,7 @@ export default function Impressum() {
               {language === "de" ? "Angaben gemäß § 5 DDG" : "Information pursuant to § 5 DDG"}
             </p>
             <p className="text-foreground/80 font-medium">Daniel Schneider</p>
-            <p>Benedicta-Spiegelstraße 50</p>
+            <p>Domplatz 3</p>
             <p>85072 Eichstätt</p>
             <p>Deutschland</p>
           </section>
@@ -55,10 +55,10 @@ export default function Impressum() {
             <p>
               E-Mail:{" "}
               <a
-                href="mailto:hello@cxoparents.com"
+                href="mailto:daniel.schneider@gopassion.io"
                 className="text-foreground/70 hover:text-foreground transition-colors duration-200 underline underline-offset-2"
               >
-                hello@cxoparents.com
+                daniel.schneider@gopassion.io
               </a>
             </p>
           </section>
@@ -71,8 +71,8 @@ export default function Impressum() {
             </p>
             <p>
               {language === "de"
-                ? "Daniel Schneider, Benedicta-Spiegelstraße 50, 85072 Eichstätt"
-                : "Daniel Schneider, Benedicta-Spiegelstraße 50, 85072 Eichstätt, Germany"}
+                ? "Daniel Schneider, Domplatz 3, 85072 Eichstätt"
+                : "Daniel Schneider, Domplatz 3, 85072 Eichstätt, Germany"}
             </p>
           </section>
 

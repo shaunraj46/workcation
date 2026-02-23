@@ -473,15 +473,15 @@ export default function Home() {
             APPLICATION FORM
             ============================================= */}
         <div ref={formRef} id="apply">
-        <AnimatedSection className="section-padding bg-card/40">
-          <div className="container mx-auto max-w-3xl">
-            <div className="text-center mb-10">
-              <h2 className="mb-3">{t("form.title")}</h2>
-              <p className="text-foreground/55 leading-relaxed">{t("form.subtitle")}</p>
+          <AnimatedSection className="section-padding bg-card/40">
+            <div className="container mx-auto max-w-3xl">
+              <div className="text-center mb-10">
+                <h2 className="mb-3">{t("form.title")}</h2>
+                <p className="text-foreground/55 leading-relaxed">{t("form.subtitle")}</p>
+              </div>
+              <div data-tf-live="01KJ5ASHWCJ5KE6HHXA90W8VKK" className="min-h-[400px] sm:min-h-[540px]" />
             </div>
-            <div data-tf-live="01KJ5ASHWCJ5KE6HHXA90W8VKK" className="min-h-[400px] sm:min-h-[540px]" />
-          </div>
-        </AnimatedSection>
+          </AnimatedSection>
         </div>
 
         {/* =============================================
@@ -505,7 +505,7 @@ export default function Home() {
                 <a href="#" className="text-foreground/35 hover:text-foreground transition-colors duration-200">{t("footer.privacy")}</a>
                 <a href="#" className="text-foreground/35 hover:text-foreground transition-colors duration-200">{t("footer.terms")}</a>
                 <a href="/impressum" className="text-foreground/35 hover:text-foreground transition-colors duration-200">Impressum</a>
-                <a href="mailto:hello@cxoparents.com" className="text-foreground/35 hover:text-foreground transition-colors duration-200">{t("footer.contact")}</a>
+                <a href="mailto:daniel.schneider@gopassion.io" className="text-foreground/35 hover:text-foreground transition-colors duration-200">{t("footer.contact")}</a>
               </div>
             </div>
           </div>
