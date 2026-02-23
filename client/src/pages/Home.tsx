@@ -472,8 +472,9 @@ export default function Home() {
         {/* =============================================
             APPLICATION FORM
             ============================================= */}
+        <div ref={formRef} id="apply">
         <AnimatedSection className="section-padding bg-card/40">
-          <div ref={formRef} className="container mx-auto max-w-3xl" id="apply">
+          <div className="container mx-auto max-w-3xl">
             <div className="text-center mb-10">
               <h2 className="mb-3">{t("form.title")}</h2>
               <p className="text-foreground/55 leading-relaxed">{t("form.subtitle")}</p>
@@ -481,6 +482,7 @@ export default function Home() {
             <div data-tf-live="01KJ5ASHWCJ5KE6HHXA90W8VKK" className="min-h-[400px] sm:min-h-[540px]" />
           </div>
         </AnimatedSection>
+        </div>
 
         {/* =============================================
             FOOTER
