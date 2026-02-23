@@ -359,8 +359,8 @@
   .hero-headline {
     font-family: 'Playfair Display', Georgia, serif;
     font-weight: 500;
-    font-size: clamp(2.25rem, 4.5vw, 4rem);
-    line-height: 1.12;
+    font-size: clamp(1.625rem, 4.5vw, 4rem);
+    line-height: 1.15;
     letter-spacing: -0.02em;
     color: white;
     text-shadow: 0 2px 40px rgba(0, 0, 0, 0.2);

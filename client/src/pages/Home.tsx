@@ -1,4 +1,4 @@
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import { motion, useInView } from "framer-motion";
 import {
   Play,
@@ -119,6 +119,15 @@ export default function Home() {
   const scrollToForm = () => formRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
   const scrollToConcept = () => conceptRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
 
+  // Load Typeform embed script after React renders the data-tf-live div
+  useEffect(() => {
+    const script = document.createElement("script");
+    script.src = "//embed.typeform.com/next/embed.js";
+    script.async = true;
+    document.body.appendChild(script);
+    return () => { script.remove(); };
+  }, []);
+
   const matchingDimensions = [
     { icon: Heart, title: t("matching.d1.title"), desc: t("matching.d1.desc") },
     { icon: Users, title: t("matching.d2.title"), desc: t("matching.d2.desc") },
@@ -187,7 +196,7 @@ export default function Home() {
               <span className="lang-toggle-divider" />
               <button onClick={() => language !== "en" && toggleLanguage()} className={language === "en" ? "active" : ""}>EN</button>
             </div>
-            <button className="btn-outlined-white" onClick={scrollToForm}>{t("nav.apply")}</button>
+            <button className="btn-outlined-white hidden sm:inline-block" onClick={scrollToForm}>{t("nav.apply")}</button>
           </div>
         </nav>
 
@@ -207,7 +216,7 @@ export default function Home() {
           <h1 className="hero-headline mb-5">{t("hero.headline")}</h1>
 
           {/* Subheadline */}
-          <p className="text-white/75 text-base md:text-lg max-w-2xl leading-relaxed mb-6" style={{ fontFamily: "'Inter', sans-serif" }}>
+          <p className="text-white/75 text-sm sm:text-base md:text-lg max-w-2xl leading-relaxed mb-4 sm:mb-6" style={{ fontFamily: "'Inter', sans-serif" }}>
             {t("hero.subheadline")}
           </p>
 
@@ -220,7 +229,7 @@ export default function Home() {
           </div>
 
           {/* Hook text */}
-          <p className="text-white/55 text-sm max-w-xl leading-relaxed mb-5 sm:mb-8 italic" style={{ fontFamily: "'Inter', sans-serif" }}>
+          <p className="text-white/55 text-sm max-w-xl leading-relaxed mb-5 sm:mb-8 italic hidden sm:block" style={{ fontFamily: "'Inter', sans-serif" }}>
             {t("hero.hook")}
           </p>
 
