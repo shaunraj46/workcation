@@ -8,7 +8,7 @@ export default function Impressum() {
   return (
     <div className="min-h-screen bg-background">
       {/* Nav */}
-      <nav className="px-6 md:px-12 py-5 flex items-center justify-between border-b border-border">
+      <nav className="px-4 sm:px-6 md:px-12 py-4 sm:py-5 flex items-center justify-between border-b border-border">
         <div
           className="text-foreground/80 font-semibold tracking-wide"
           style={{ fontFamily: "'Playfair Display', serif" }}
@@ -24,17 +24,17 @@ export default function Impressum() {
         </div>
       </nav>
 
-      <div className="container mx-auto max-w-2xl px-6 py-16 md:py-24">
-        <Link href="/" className="inline-flex items-center gap-2 text-sm text-foreground/45 hover:text-foreground transition-colors duration-200 mb-12" style={{ fontFamily: "'Inter', sans-serif" }}>
+      <div className="container mx-auto max-w-2xl px-4 sm:px-6 py-12 sm:py-16 md:py-24">
+        <Link href="/" className="inline-flex items-center gap-2 text-sm text-foreground/45 hover:text-foreground transition-colors duration-200 mb-8 sm:mb-12" style={{ fontFamily: "'Inter', sans-serif" }}>
           <ArrowLeft className="w-4 h-4" />
           {language === "de" ? "Zurück zur Startseite" : "Back to home"}
         </Link>
 
-        <h1 className="mb-10" style={{ fontFamily: "'Playfair Display', serif" }}>
+        <h1 className="mb-6 sm:mb-10" style={{ fontFamily: "'Playfair Display', serif" }}>
           Impressum
         </h1>
 
-        <div className="space-y-10 text-sm text-foreground/70 leading-relaxed" style={{ fontFamily: "'Inter', sans-serif" }}>
+        <div className="space-y-8 sm:space-y-10 text-sm text-foreground/70 leading-relaxed" style={{ fontFamily: "'Inter', sans-serif" }}>
 
           <section>
             <p className="text-xs font-semibold tracking-widest uppercase text-foreground/35 mb-3">
