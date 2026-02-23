@@ -3,8 +3,6 @@ import { motion, useInView } from "framer-motion";
 import {
   Play,
   Pause,
-  ArrowRight,
-  CheckCircle,
   Heart,
   Users,
   Briefcase,
@@ -63,6 +61,43 @@ function StaggerItem({
   );
 }
 
+function FaqAccordion({ items }: { items: { q: string; a: string }[] }) {
+  const [open, setOpen] = useState<number | null>(null);
+  return (
+    <div className="space-y-3">
+      {items.map((item, i) => (
+        <div key={i} className="border border-border rounded-xl overflow-hidden">
+          <button
+            onClick={() => setOpen(open === i ? null : i)}
+            className="w-full text-left px-6 py-5 flex items-center justify-between gap-4 hover:bg-card/60 transition-colors duration-200"
+          >
+            <span className="text-sm font-medium text-foreground/85" style={{ fontFamily: "'Inter', sans-serif" }}>
+              {item.q}
+            </span>
+            <motion.span
+              animate={{ rotate: open === i ? 45 : 0 }}
+              transition={{ duration: 0.2 }}
+              className="text-foreground/40 text-xl shrink-0 leading-none"
+            >
+              +
+            </motion.span>
+          </button>
+          <motion.div
+            initial={false}
+            animate={{ height: open === i ? "auto" : 0, opacity: open === i ? 1 : 0 }}
+            transition={{ duration: 0.3, ease: [0.25, 0.1, 0.25, 1] }}
+            style={{ overflow: "hidden" }}
+          >
+            <p className="px-6 pb-5 text-sm text-foreground/60 leading-relaxed" style={{ fontFamily: "'Inter', sans-serif" }}>
+              {item.a}
+            </p>
+          </motion.div>
+        </div>
+      ))}
+    </div>
+  );
+}
+
 /* ============================================================
    HOME PAGE
    ============================================================ */
@@ -70,7 +105,6 @@ export default function Home() {
   const { t, language, toggleLanguage } = useLanguage();
   const videoRef = useRef<HTMLVideoElement>(null);
   const [isPlaying, setIsPlaying] = useState(true);
-  const [formSubmitted, setFormSubmitted] = useState(false);
   const formRef = useRef<HTMLDivElement>(null);
   const conceptRef = useRef<HTMLElement>(null);
 
@@ -84,11 +118,6 @@ export default function Home() {
 
   const scrollToForm = () => formRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
   const scrollToConcept = () => conceptRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
-
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    setFormSubmitted(true);
-  };
 
   const matchingDimensions = [
     { icon: Heart, title: t("matching.d1.title"), desc: t("matching.d1.desc") },
@@ -222,55 +251,57 @@ export default function Home() {
         {/* =============================================
             FOUNDER STORY — 3-Phase Evolution
             ============================================= */}
-        <AnimatedSection className="section-padding bg-background" ref={conceptRef as any}>
-          <div className="container mx-auto max-w-6xl">
-            <div className="mb-14">
-              <h2>{t("story.title")}</h2>
+        <div ref={conceptRef as any}>
+          <AnimatedSection className="section-padding bg-background">
+            <div className="container mx-auto max-w-6xl">
+              <div className="mb-14">
+                <h2>{t("story.title")}</h2>
+              </div>
+
+              <div className="grid md:grid-cols-3 gap-6">
+                {phases.map((phase, i) => (
+                  <StaggerItem key={i} index={i}>
+                    <div className={`h-full rounded-xl border ${phase.accent} bg-card p-7 flex flex-col gap-5 ${i === 2 ? "bg-card/80 border-foreground/15" : ""}`}>
+                      {/* Phase label */}
+                      <div>
+                        <span className="text-xs font-medium tracking-widest uppercase text-foreground/40" style={{ fontFamily: "'Inter', sans-serif" }}>
+                          {phase.label}
+                        </span>
+                        <h3 className="mt-2 text-lg">{phase.headline}</h3>
+                      </div>
+
+                      {/* Vibe */}
+                      <div>
+                        <p className="text-xs font-semibold tracking-widest uppercase text-foreground/35 mb-2" style={{ fontFamily: "'Inter', sans-serif" }}>
+                          {t("story.vibe.label")}
+                        </p>
+                        <p className="text-sm text-foreground/65 leading-relaxed">{phase.vibe}</p>
+                      </div>
+
+                      {/* Connection */}
+                      <div>
+                        <p className="text-xs font-semibold tracking-widest uppercase text-foreground/35 mb-2" style={{ fontFamily: "'Inter', sans-serif" }}>
+                          {t("story.connection.label")}
+                        </p>
+                        <p className="text-sm text-foreground/65 leading-relaxed">{phase.connection}</p>
+                      </div>
+
+                      {/* Result */}
+                      <div className="mt-auto pt-4 border-t border-border">
+                        <p className="text-xs font-semibold tracking-widest uppercase text-foreground/35 mb-1" style={{ fontFamily: "'Inter', sans-serif" }}>
+                          {t("story.result.label")}
+                        </p>
+                        <p className={`text-sm font-medium ${i === 2 ? "text-foreground" : "text-foreground/55"}`} style={{ fontFamily: "'Playfair Display', serif" }}>
+                          {phase.result}
+                        </p>
+                      </div>
+                    </div>
+                  </StaggerItem>
+                ))}
+              </div>
             </div>
-
-            <div className="grid md:grid-cols-3 gap-6">
-              {phases.map((phase, i) => (
-                <StaggerItem key={i} index={i}>
-                  <div className={`h-full rounded-xl border ${phase.accent} bg-card p-7 flex flex-col gap-5 ${i === 2 ? "bg-card/80 border-foreground/15" : ""}`}>
-                    {/* Phase label */}
-                    <div>
-                      <span className="text-xs font-medium tracking-widest uppercase text-foreground/40" style={{ fontFamily: "'Inter', sans-serif" }}>
-                        {phase.label}
-                      </span>
-                      <h3 className="mt-2 text-lg">{phase.headline}</h3>
-                    </div>
-
-                    {/* Vibe */}
-                    <div>
-                      <p className="text-xs font-semibold tracking-widest uppercase text-foreground/35 mb-2" style={{ fontFamily: "'Inter', sans-serif" }}>
-                        {t("story.vibe.label")}
-                      </p>
-                      <p className="text-sm text-foreground/65 leading-relaxed">{phase.vibe}</p>
-                    </div>
-
-                    {/* Connection */}
-                    <div>
-                      <p className="text-xs font-semibold tracking-widest uppercase text-foreground/35 mb-2" style={{ fontFamily: "'Inter', sans-serif" }}>
-                        {t("story.connection.label")}
-                      </p>
-                      <p className="text-sm text-foreground/65 leading-relaxed">{phase.connection}</p>
-                    </div>
-
-                    {/* Result */}
-                    <div className="mt-auto pt-4 border-t border-border">
-                      <p className="text-xs font-semibold tracking-widest uppercase text-foreground/35 mb-1" style={{ fontFamily: "'Inter', sans-serif" }}>
-                        {t("story.result.label")}
-                      </p>
-                      <p className={`text-sm font-medium ${i === 2 ? "text-foreground" : "text-foreground/55"}`} style={{ fontFamily: "'Playfair Display', serif" }}>
-                        {phase.result}
-                      </p>
-                    </div>
-                  </div>
-                </StaggerItem>
-              ))}
-            </div>
-          </div>
-        </AnimatedSection>
+          </AnimatedSection>
+        </div>
 
         {/* =============================================
             PAIN SECTION
@@ -361,57 +392,84 @@ export default function Home() {
         </AnimatedSection>
 
         {/* =============================================
-            APPLICATION FORM
+            HOW IT WORKS — 5 Steps
             ============================================= */}
         <AnimatedSection className="section-padding bg-background">
-          <div ref={formRef} className="container mx-auto max-w-xl" id="apply">
-            {formSubmitted ? (
-              <motion.div
-                initial={{ opacity: 0, scale: 0.95 }}
-                animate={{ opacity: 1, scale: 1 }}
-                className="text-center p-12 rounded-2xl bg-card border border-border"
-              >
-                <CheckCircle className="w-12 h-12 mx-auto mb-4" style={{ color: "oklch(0.42 0.08 45)" }} />
-                <h3 className="text-2xl mb-3">{t("form.success.title")}</h3>
-                <p className="text-foreground/60">{t("form.success.desc")}</p>
-              </motion.div>
-            ) : (
-              <div>
-                <div className="text-center mb-10">
-                  <h2 className="mb-3">{t("form.title")}</h2>
-                  <p className="text-foreground/55 leading-relaxed">{t("form.subtitle")}</p>
-                </div>
+          <div className="container mx-auto max-w-4xl">
+            <div className="mb-14">
+              <h2 className="mb-2">{t("how.title")}</h2>
+              <p className="text-foreground/45 text-base" style={{ fontFamily: "'Inter', sans-serif", letterSpacing: "0.05em" }}>
+                {t("how.subtitle")}
+              </p>
+            </div>
 
-                <form onSubmit={handleSubmit} className="p-8 md:p-10 rounded-2xl bg-card border border-border">
-                  <div className="space-y-5">
-                    <div>
-                      <label className="block text-sm font-medium mb-1.5 text-foreground/65">{t("form.name")}</label>
-                      <input type="text" required className="w-full px-4 py-3 rounded-lg border border-border bg-background focus:outline-none focus:ring-2 focus:ring-ring/30 transition-all text-sm" />
+            <div className="relative">
+              {/* Vertical connecting line */}
+              <div className="absolute left-8 top-10 bottom-10 w-px bg-border hidden md:block" />
+
+              <div className="space-y-6">
+                {([
+                  { num: t("how.step1.num"), title: t("how.step1.title"), desc: t("how.step1.desc") },
+                  { num: t("how.step2.num"), title: t("how.step2.title"), desc: t("how.step2.desc") },
+                  { num: t("how.step3.num"), title: t("how.step3.title"), desc: t("how.step3.desc") },
+                  { num: t("how.step4.num"), title: t("how.step4.title"), desc: t("how.step4.desc") },
+                  { num: t("how.step5.num"), title: t("how.step5.title"), desc: t("how.step5.desc") },
+                ] as { num: string; title: string; desc: string }[]).map((step, i) => (
+                  <StaggerItem key={i} index={i}>
+                    <div className="flex gap-6 md:gap-10 items-start">
+                      {/* Step number circle */}
+                      <div className="relative z-10 shrink-0 w-16 h-16 rounded-full border border-border bg-background flex items-center justify-center">
+                        <span
+                          className="text-xs font-semibold tracking-widest text-foreground/40"
+                          style={{ fontFamily: "'Inter', sans-serif" }}
+                        >
+                          {step.num}
+                        </span>
+                      </div>
+                      {/* Content */}
+                      <div className="pt-3 pb-6 flex-1 border-b border-border last:border-0">
+                        <h3 className="text-base mb-2">{step.title}</h3>
+                        <p className="text-sm text-foreground/55 leading-relaxed">{step.desc}</p>
+                      </div>
                     </div>
-                    <div>
-                      <label className="block text-sm font-medium mb-1.5 text-foreground/65">{t("form.email")}</label>
-                      <input type="email" required className="w-full px-4 py-3 rounded-lg border border-border bg-background focus:outline-none focus:ring-2 focus:ring-ring/30 transition-all text-sm" />
-                    </div>
-                    <div>
-                      <label className="block text-sm font-medium mb-1.5 text-foreground/65">{t("form.children")}</label>
-                      <input type="text" required placeholder={t("form.children.placeholder")} className="w-full px-4 py-3 rounded-lg border border-border bg-background focus:outline-none focus:ring-2 focus:ring-ring/30 transition-all text-sm" />
-                    </div>
-                    <div>
-                      <label className="block text-sm font-medium mb-1.5 text-foreground/65">{t("form.company")}</label>
-                      <input type="text" required className="w-full px-4 py-3 rounded-lg border border-border bg-background focus:outline-none focus:ring-2 focus:ring-ring/30 transition-all text-sm" />
-                    </div>
-                    <div>
-                      <label className="block text-sm font-medium mb-1.5 text-foreground/65">{t("form.interest")}</label>
-                      <textarea required rows={4} className="w-full px-4 py-3 rounded-lg border border-border bg-background focus:outline-none focus:ring-2 focus:ring-ring/30 transition-all text-sm resize-none" />
-                    </div>
-                    <button type="submit" className="btn-premium w-full justify-center mt-2">
-                      {t("form.submit")}
-                      <ArrowRight className="w-4 h-4" />
-                    </button>
-                  </div>
-                </form>
+                  </StaggerItem>
+                ))}
               </div>
-            )}
+            </div>
+          </div>
+        </AnimatedSection>
+
+        {/* =============================================
+            FAQ
+            ============================================= */}
+        <AnimatedSection className="section-padding bg-card/40">
+          <div className="container mx-auto max-w-3xl">
+            <div className="mb-12">
+              <h2>{t("faq.title")}</h2>
+            </div>
+            <FaqAccordion items={[
+              { q: t("faq.q1"), a: t("faq.a1") },
+              { q: t("faq.q2"), a: t("faq.a2") },
+              { q: t("faq.q3"), a: t("faq.a3") },
+              { q: t("faq.q4"), a: t("faq.a4") },
+              { q: t("faq.q5"), a: t("faq.a5") },
+              { q: t("faq.q6"), a: t("faq.a6") },
+              { q: t("faq.q7"), a: t("faq.a7") },
+              { q: t("faq.q8"), a: t("faq.a8") },
+            ]} />
+          </div>
+        </AnimatedSection>
+
+        {/* =============================================
+            APPLICATION FORM
+            ============================================= */}
+        <AnimatedSection className="section-padding bg-card/40">
+          <div ref={formRef} className="container mx-auto max-w-3xl" id="apply">
+            <div className="text-center mb-10">
+              <h2 className="mb-3">{t("form.title")}</h2>
+              <p className="text-foreground/55 leading-relaxed">{t("form.subtitle")}</p>
+            </div>
+            <div data-tf-live="01KJ5ASHWCJ5KE6HHXA90W8VKK" style={{ minHeight: "540px" }} />
           </div>
         </AnimatedSection>
 
@@ -435,6 +493,7 @@ export default function Home() {
               <div className="flex gap-6 text-sm" style={{ fontFamily: "'Inter', sans-serif" }}>
                 <a href="#" className="text-foreground/35 hover:text-foreground transition-colors duration-200">{t("footer.privacy")}</a>
                 <a href="#" className="text-foreground/35 hover:text-foreground transition-colors duration-200">{t("footer.terms")}</a>
+                <a href="/impressum" className="text-foreground/35 hover:text-foreground transition-colors duration-200">Impressum</a>
                 <a href="mailto:hello@cxoparents.com" className="text-foreground/35 hover:text-foreground transition-colors duration-200">{t("footer.contact")}</a>
               </div>
             </div>
